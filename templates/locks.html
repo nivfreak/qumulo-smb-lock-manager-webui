@@ -1,0 +1,46 @@
+<title>Qumulo SMB Lock Manager</title>
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mark.css') }}">
+<script src="{{ url_for('static',filename='js/search-table.js') }}"></script>
+
+<img src="{{ url_for('static',filename='img/mcquat.png') }}" class=quat></img>
+
+<h3>Currently managing {{ conn.host }}</h3>
+
+<input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for path..">
+<table class="styled-table" id="lockTable">
+	<thead>
+		<tr>
+
+			<th>Release?</th>
+			<th>Owner</th>
+			<th>IP</th>
+			<th>Hostname</th>
+			<th>Path</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			{% for lock in locks %}
+			<form method="post">
+			<input id="location" name="location"
+                       		type="hidden" value="{{ lock.location }}">
+			<td><button type="submit" name="release" value="{{ lock.location }}"
+                            formmethod="post">X</button></td>
+			<td>{{ lock.owner_name }}</td>
+			<td>{{ lock.ip }}</td>
+			<td>{{ lock.hostname }}</td>
+			<td>{{ lock.path }}</td>
+			</form>
+		</tr>
+			{% endfor %}
+	</tbody>
+</table>
+
+    <hr>
+    <div class="content">
+        {% for message in get_flashed_messages() %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+        {% block content %} {% endblock %}
+    </div>

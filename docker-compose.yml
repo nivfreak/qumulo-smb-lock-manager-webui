@@ -1,0 +1,20 @@
+version: "3.6"
+services:
+  qslm:
+    build: .
+    container_name: qslm
+    # Supplied from .env file (Copy from template.docker-env)
+    environment:
+      API_HOSTNAME: ${API_HOSTNAME}
+      API_PORT: ${API_PORT}
+      API_USER: ${API_USER}
+      API_PASSWORD: ${API_PASSWORD}
+    restart: always
+    hostname: qslm
+    image: qslm
+    logging:
+      driver: json-file
+      options: {}
+    network_mode: bridge
+    ports:
+      - 5000:5000/tcp
